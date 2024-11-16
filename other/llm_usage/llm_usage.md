@@ -1,3 +1,1 @@
-No llm was used during the draft of the paper.
-
-Llm was used as a supporting coder for the data simulation's code generation.
+LLM was used in creating the code for data validation, found in '../scripts/03-clean_data.ipynb'.
