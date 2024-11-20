@@ -1,12 +1,12 @@
 ---
-title: "Predicting Personal Total Income of Individuals in the United States in 2023"
-subtitle: "XGBoost Captures the Complex Pattern Better Than Random Forest and Linear Regression"
+title: "Comparing Different Machine Learning Models at Predicting Bitcoin Price Moving Direction at Different Time Intervals from 2017 to 2024"
+subtitle: "RNN Can Predict Best at One-Hour Intervals"
 author: 
-  - Justin (Jiazhou) Bi and Weiyang Li
-thanks: "All project related files available at: https://github.com/Jiazhou-Bi/ACS-Income-Model"
-date: Nov 14, 2024
+  - Justin (Jiazhou) Bi
+thanks: "All project related files available at: https://github.com/Jiazhou-Bi/BTC-Price-Prediction"
+date: Nov 20, 2024
 date-format: long
-abstract: "This project aims to build a predictive model for personal total income using various demographic attributes, such as marital status, occupation, and residing state. We explored three popular machine learning algorithms: Random Forest, Linear Regression, and Extreme Gradient Boosting. Ultimately, Extreme Gradient Boosting was selected due to its superior predictive performance. While the model achieved a high R-squared value, it also exhibited a high Mean Squared Error, indicating challenges in accurately predicting all data points. Future steps for improving the model may involve incorporating additional demographic features to enhance model accuracy and reduce errors. Additionally, fine-tuning hyperparameters, experimenting with feature engineering, and handling outliers could further improve performance."
+abstract: "This project aims to build a predictive model for the price moving direction of Bitcoin (BTC) at 1-minute, 1-hour, and 1-day intervals. We explored four popular machine learning algorithms for time-series data prediction: Recurrent Neural Network (RNN), Long Short-Term Memory (LSTM), Random Forest (RF), and Extreme Gradient Boosting (xGB). We have compared these four models on two different dimensions: model performance and time for training. The data used for this project is gathered from Binance which contains BTC data from late 2017 to present (November 2024).The original variables include high, low, open, close, and volume, as well as the timestamp of BTC, at one-minute, one-hour, and one-day intervals. Ultimately, RNN has the overall best performance in terms of its predictive accuracy, while XGB has the fastest training duration. While most models across different time intervals achieved a better performance than simply guessing at a 50-50 percent chance, their performance varies for each direction of the movemenet. Future steps for improving the model may involve incorporating additional features to enhance model accuracy and reduce errors. Additionally, fine-tuning hyperparameters, experimenting with more sophisticated feature engineering, and handling outliers could further improve performance."
 
 format: pdf
 jupyter: python3 
@@ -15,6 +15,12 @@ bibliography: references.bib
 ---
 
 # Introduction {#sec-introduction}
+
+Cryptocurrencies have drawn much attention of the public recently due to its growing public awareness. xxx amount of papers/news about BTC was published (refereces here) from xxxx to xxxx. According to xxx (reference here), the value of the market... etc. The trading volume (references) ... It has been adopted by xxx platforms and .... (reference) Also, mention the importance of BTC (references needed) and its role of being a indicator of the overall crypto market. Therefore, it has become one of the most traded ....
+On the other hand, due to its non-tangible nature, volitility is key aspect. xxxx data about its ups and downs. Only contains data from 2017 because .... fits our scope. Regain values (references 5 in the paper).
+Similar to the stock prices, because BTC is considered a tradable investment instrument, many attempt to predict its price in the future to faciliate their trading strategy. Recently studies were published to discuss whether the price of BTC is predictable and technical indicators returned the possibility. Accuracy up to 63% for direction prediction (reference here, 9). Also, in 10, they reported 98% success rate for daily price forecast. Based on recent data 2017 and 2018. Both EOD prediction. We have even short trading horizons, 1 min, 1 hour.
+
+
 
 Income is a fundamental concept as it affects nearly every member of society, influencing access to resources, quality of life, and overall economic stability. At the same time, it is also a difficult concept to define, as it can be interpreted differently depending on various perspectives, such as economic, social, legal, and tax purposes. Therefore, we must examine various demographical factors that may impact income to understand its concept better. Our project defines income as "all forms of net financial resources generated or lost from work, investments, or other activities." This project aims to predict personal income using data from the 2023 American Community Survey (ACS) [@ipums_usa_v15]. The ACS provides detailed demographic information, including age, education, employment, marital status, mortgage status, veteran status. As a result, it provides a robust dataset for studying potential factors that may influence income.
 
