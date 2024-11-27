@@ -1,5 +1,11 @@
 # Predicting Bitcoin Price Movement Using Time-Series Models
 
+![Python Version](https://img.shields.io/badge/python-3.12-blue) 
+![License](https://img.shields.io/badge/license-MIT-green) 
+![Dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen)
+![Last Commit](https://img.shields.io/github/last-commit/your-username/your-repo-name)
+![Stars](https://img.shields.io/github/stars/your-username/your-repo-name?style=social)
+
 This repository contains a Python-based project aimed at predicting the future movement direction of Bitcoin (BTC) prices using freely available data. The project compares three different machine learning models—LSTM, RNN, and XGBoost—on datasets spanning three time intervals: 1-minute, 1-hour, and 1-day. 
 
 The dataset includes BTC price features such as Open, Close, High, Low, and Volume, and was extracted from the Binance exchange using the [ccxt](https://github.com/ccxt/ccxt) Python package.
