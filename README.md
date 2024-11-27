@@ -3,8 +3,7 @@
 ![Python Version](https://img.shields.io/badge/python-3.12-blue) 
 ![License](https://img.shields.io/badge/license-MIT-green) 
 ![Dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-brightgreen)
-![Last Commit](https://img.shields.io/github/last-commit/your-username/your-repo-name)
-![Stars](https://img.shields.io/github/stars/your-username/your-repo-name?style=social)
+![Last Commit](https://img.shields.io/github/last-commit/Jiazhou-Bi/BTC-Price-Prediction)
 
 This repository contains a Python-based project aimed at predicting the future movement direction of Bitcoin (BTC) prices using freely available data. The project compares three different machine learning models—LSTM, RNN, and XGBoost—on datasets spanning three time intervals: 1-minute, 1-hour, and 1-day. 
 
