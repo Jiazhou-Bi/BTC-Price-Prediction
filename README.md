@@ -47,13 +47,29 @@ To evaluate and compare the performance of LSTM, RNN, and XGBoost models in pred
 
 ## Repository Structure
 ├── data/
-│   ├── 01-raw_data/        # Raw datasets as extracted from Binance
-│   ├── 02-cleaned_data/    # Cleaned and preprocessed datasets
-├── models/                 # Saved models (LSTM, RNN, XGBoost)
-├── notebooks/              # Jupyter notebooks for data analysis and modeling
-├── scripts/                # Python scripts for data extraction, cleaning, and modeling
-├── write-up/               # Documentation and findings from the project
-├── requirements.txt        # Python dependencies for the project
+
+│   ├── 00-simulated_data/             # Simulated datasets according to some logics
+
+│   ├── 01-raw_data/                   # Raw datasets as extracted from Binance
+
+│   ├── 02-analysis_data/              # Cleaned and preprocessed datasets
+
+│   ├── 03-lagged_differences_data/    # Extra feature added for the datasets
+
+├── model/                             # Saved models (LSTM, RNN, XGBoost)
+
+├── other/                            
+
+│   ├── graphs/                       # Graphs generated for data analysis (WIP)
+
+│   ├── llm_usage/                    # Recorded usages of llm
+
+├── paper/                            # The write-up of this project. It contains the detailed report.
+
+├── scripts/                          # Python scripts for data extraction, cleaning, and modeling, etc.
+
+├── requirements.txt        # Python dependencies for the project (not done yet)
+
 └── README.md               # Overview of the project and instructions
 
 
