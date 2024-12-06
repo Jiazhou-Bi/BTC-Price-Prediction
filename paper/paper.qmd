@@ -450,6 +450,27 @@ XGB trains the fastest, followed by RNN, with LSTM taking the longest to train w
 On the other hand, LSTM has the most prolonged training duration and least optimal performance. This suggests that when training LSTM models, better optimization or alternative approaches can be beneficial without access to GPUs or distributed computing resources. This extreme difference in training times demonstrates the practical implications of model selection for computationally constrained traders.
 
 # Discussion {#sec-discussion}
+In this analysis, we explored three models—RNN, LSTM, and XGBoost—to predict the direction of Bitcoin price movement with freely available information. Among the models, XGBoost demonstrated the best overall performance in terms of predictive accuracy and the shortest training time. RNN also predicts well when applied to longer time intervals (1 day). More details are discussed in the following subsections.
+
+## Key Findings
+
+### The Strength of XGB
+XGB has demonstrated the best overall accuracy across the 1-minute and 1-hour datasets. This confirms XGB's superior ability to handle tabular data with limited resources, as mentioned in [@bernson2024xgboost]. Moreover, XGB required the shortest training time, making it time-efficient for model training and retraining.
+
+### RNN's Performance on Longer Time Duration
+Although RNN performed poorly on the 1-minute dataset, it excelled at prediction Bitcoin's price movement at 1-hour and 1-day time interval. It achieved the highest F1-score in this study for predicting price increases in the 1-day dataset. This indicates that RNNs might be better suited for datasets where sequential patterns are more pronounced over longer durations.
+
+### The Limitations of LSTM
+LSTM failed to make any meaningful predictions, and it only gave price decrease predictions in this study. Additionally, LSTM required the longest training time, with minimal return in predictive performance, making it unusable without further optimization and tuning.
+
+### Training Efficiency Comparison
+XGB significantly outperformed both RNN and LSTM in their training speeds, completing training in mere minutes compared to hours for the other models. This shows XGB's computational efficiency, which can be useful for traders or researchers with limited computational power.
+
+## Limitations
+While the study provided valuable insights, several limitations are also recognized and must be addressed. Firstly, due to time constraints, the models were not fully optimized. This may have led to the suboptimal performance of RNN (on the 1-minute dataset) and LSTM models. Secondly, including "0" as an outcome class for RNN and LSTM models may have diluted the predictive power without providing additional helpful information to assist trading. Removing this outcome and focusing on price increases or decreases might provide more precise insights for investors. Thirdly, all training was conducted using a CPU. This limitation may impact the training time for RNN and LSTM because GPU training has much higher parallelization capacities, which can be optimized when training deep learning models, as mentioned in [@buber2018performance]. Fourthly, only basic features were used in the models. Although the goal of this project is to use readily available features to predict Bitcoin's price movement direction, there are other features that are also easy to acquire, such as its hash rate, which may be very effective when predicting the direction of cryptocurrency's price, according to [@king2024blockchain]. Lastly, the dataset was sourced from Binance and Binance only, and this may limit the data's quality and the models' generalizability. Cross-verifying the data with other sources might provide more robust results.
+
+## Next Steps
+To address the above limitations and further improve the models, the next steps of this research are to tune the hyperparameters of the models and improve their performance, especially for RNN and LSTM; refine the outcome classes and remove "0" (no change) from the output list to focus on providing actionable outcomes; add more features and train the deep learning models on GPU; and lastly, combine data from multiple sources to make the models and results more robust.
 
 \newpage
 
