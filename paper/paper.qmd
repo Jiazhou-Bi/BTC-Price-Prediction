@@ -203,7 +203,7 @@ An issue was mentioned in @sec-highandlow. That is, the correlation between the 
 #| fig-cap: "All price variables (open, high, low, close) plotted for the 1-minute dataset."
 #| warning: false
 #| message: false
-#| fig-pos: "H"
+
 
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
@@ -223,7 +223,7 @@ plt.show()
 #| fig-cap: "Correlation matrix (open, high, low, close) plotted for the 1-minute dataset."
 #| warning: false
 #| message: false
-#| fig-pos: "H"
+
 
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
@@ -245,7 +245,7 @@ To solve this issue, "open_diff," "high_diff," "low_diff," and "close_diff" were
 #| fig-cap: "All lagged price differences (open_diff, high_diff, low_diff, and close_diff) plotted for the 1-minute dataset."
 #| warning: false
 #| message: false
-#| fig-pos: "H"
+
 
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
@@ -265,7 +265,7 @@ plt.show()
 #| fig-cap: "Correlation matrix (open_diff, high_diff, low_diff, and close_diff) plotted for the 1-minute dataset."
 #| warning: false
 #| message: false
-#| fig-pos: "H"
+
 
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
@@ -280,7 +280,174 @@ plt.show()
 
 # Models {#sec-models}
 
+## Recurrent Neural Network (RNN) {#sec-rnn}
+First published in [@elman1990finding] in 1990, RNN is a type of neural network that is designed to handle sequential data. Different from a feedforward neural network, RNN feeds the output from one step back as input for the next step, enabling RNN to "remember" information from the previous inputs, as described in [@GeeksforGeeks_2024]. This key mechanism makes RNN well-suited for time-series predictions and other sequential tasks. In this project, an RNN model was trained to predict Bitcoin's price movement direction for the 1-minute, 1-hour, and 1-day datasets. The features included lagged price differences (open_diff, high_diff, low_diff, close_diff), volume, a missing-data indicator (was_missing) for the 1-minute and 1-hour datasets, and the previous price movement direction (direction_t-1). The target variable was the future price movement direction (direction_t+1), which was coded into three classes: -1 (decrease), 0 (no change), and 1 (increase), as mentioned in @sec-featureengineering. In this project, the RNN has two simple RNN layers, with 128 and 64 nodes, respectively; a fully connected layer with 64 nodes; and the output layer uses softmax as its activation function, with three possible predictions: -1 (decrease), 0 (no change), and 1 (increase). Dropout was performed at all layers before the output layer to prevent overfitting. The loss function was cross-entropy.
+
+## Long Short-Term Memory (LSTM) {#sec-lstm}
+Originally published in [@hochreiter1997long] in 1997, LSTM is a special type of RNN, and it is designed to handle both short- and long-term dependencies in time series data, as stated in [@ghojogh2023recurrent]. Leaving out all the technical details, the primary function of LSTM is to retain important historical information, thus making it an excellent model for predicting sequential data, like financial forecasting and NLP. In this project, an LSTM model was trained to predict Bitcoin's price movement direction at different time intervals. Using the LSTM trained on the 1-minute dataset as an example, the features used for prediction are the lagged differences of price variables (open_diff, high_diff, low_diff, close_diff), volume, the missing-data indicator (was_missing), and the direction of the price movement at the previous timestamp (direction_t-1). These features were normalized using a MinMaxScaler offered in [@pedregosa2011scikit] to improve the model's performance. The dataset was transformed into sequences with a time step of 10 (10 observations in 10 minutes) to allow LSTM to learn short-term patterns over short historical periods. As for the model itself, the LSTM model has one LSTM layer with 128 nodes with a ReLU activation function, two fully connected layers with 64 nodes per layer with random dropout to prevent overfitting, and a binary output layer with a sigmoid activation function. The loss function was cross-entropy.
+
+## Extreme Gradient Boosting (XGB) {#sec-xgb}
+According to [@chen2016xgboost], XGB is a highly optimized and efficient implementation of the gradient boosting framework. In [@shwartz2022tabular], the authors stated that "XGBoost is widely used for structured and tabular data due to its flexibility, performance, and ability to handle missing data effectively." Despite not being explicitly developed for sequential data, XGB is a commonly used machine learning model for both regression and classification with excellent performance, according to [@Mukherjee_2023]. In this project, XGB classifiers were used to predict Bitcoin's price movement direction for all three datasets. Unlike the previous two sequential models (LSTM and RNN), XGB works on tabular data without requiring sequential dependencies. The features included lagged price differences (open_diff, high_diff, low_diff, close_diff), volume, a missing-data indicator (was_missing) for the 1-minute and 1-hour datasets, and the previous price movement direction (direction_t-1). The target variable was the future price movement direction (direction_t+1), which was coded into three classes: -1 (decrease), 0 (no change), and 1 (increase), as mentioned in @sec-featureengineering. The XGB model itself has 100 estimators to balance training speed and model complexity, a maximum depth of 10, and a 0.1 learning rate.
+
 # Results {#sec-results}
+
+## Performance 
+This subsection compares the performance of the three models across each dataset. Key metrics, including accuracy, F1-score, and confusion matrices, are used to evaluate and contrast their effectiveness.
+
+### RNN
+RNN performs the worst when it is applied to predict a 1-minute interval dataset. The overall accuracy is only 0.41, and the F-1 scores are 0.51, 0.20, and 0.35, respectively, for the prediction of a decrease, no change, and an increase. When used on the 1-hour dataset, RNN performs significantly better, with an overall 0.52 accuracy and 0.52 F-1 scores for both increase and decrease. Lastly, RNN also performs well on the 1-day dataset, with an overall 0.52 accuracy and 0.32 and 0.63 F-1 scores for predicting a decrease and increase. The confusion matrixes of RNN on these three different time intervals are shown in @fig-figure9, @fig-figure10, and @fig-figure11.
+
+```{python}
+
+#| echo: false
+#| label: fig-figure9
+#| fig-cap: "Confusion matrix for RNN on 1-minute dataset"
+#| warning: false
+#| message: false
+
+
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+
+img = mpimg.imread('../other/graphs/rnn_confusion_1m.png')
+plt.figure(figsize=(10, 6))
+plt.imshow(img)
+plt.axis('off')
+plt.show()
+
+```
+
+```{python}
+
+#| echo: false
+#| label: fig-figure10
+#| fig-cap: "Confusion matrix for RNN on 1-hour dataset"
+#| warning: false
+#| message: false
+
+
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+
+img = mpimg.imread('../other/graphs/rnn_confusion_1h.png')
+plt.figure(figsize=(10, 6))
+plt.imshow(img)
+plt.axis('off')
+plt.show()
+
+```
+
+```{python}
+
+#| echo: false
+#| label: fig-figure11
+#| fig-cap: "Confusion matrix for RNN on 1-day dataset"
+#| warning: false
+#| message: false
+
+
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+
+img = mpimg.imread('../other/graphs/rnn_confusion_1d.png')
+plt.figure(figsize=(10, 6))
+plt.imshow(img)
+plt.axis('off')
+plt.show()
+
+```
+
+### LSTM
+LSTM did not work as intended. All of them only predict a decrease for the next timestamp. For example, for the 1-minute dataset, LSTM produced an overall accuracy of 0.48, and its confusion matrix is shown in @fig-figure12. The other statistics will not be provided here in detail because they are useless, considering the model is not making any meaningful prediction. For the details of LSTM models, please read about them in the actual model script, called "06-model_data.ipynb", located under the "scripts" folder.
+
+```{python}
+
+#| echo: false
+#| label: fig-figure12
+#| fig-cap: "Confusion matrix for LSTM on 1-hour dataset"
+#| warning: false
+#| message: false
+
+
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+
+img = mpimg.imread('../other/graphs/lstm_confusion_1h.png')
+plt.figure(figsize=(10, 6))
+plt.imshow(img)
+plt.axis('off')
+plt.show()
+
+```
+
+### XGB
+Opposite to RNN, XGB performs well when it is applied to predict a 1-minute interval dataset. The overall accuracy is only 0.53, and the F-1 scores are 0.58 and 0.46 for the prediction of a decrease and an increase. When used on the 1-hour dataset, XGB produced an overall 0.53 accuracy and 0.51 and 0.55 for the prediction of a decrease and an increase. Lastly, XGB performs slightly worse on the 1-day dataset, with an overall 0.50 accuracy and 0.49 and 0.52 F-1 scores for predicting a decrease and increase. The confusion matrixes of RNN on these three different time intervals are shown in @fig-figure13, @fig-figure14, and @fig-figure15.
+
+```{python}
+
+#| echo: false
+#| label: fig-figure13
+#| fig-cap: "Confusion matrix for XGB on 1-minute dataset"
+#| warning: false
+#| message: false
+
+
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+
+img = mpimg.imread('../other/graphs/XGB_confusion_1m.png')
+plt.figure(figsize=(10, 6))
+plt.imshow(img)
+plt.axis('off')
+plt.show()
+
+```
+```{python}
+
+#| echo: false
+#| label: fig-figure14
+#| fig-cap: "Confusion matrix for XGB on 1-hour dataset"
+#| warning: false
+#| message: false
+
+
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+
+img = mpimg.imread('../other/graphs/XGB_confusion_1h.png')
+plt.figure(figsize=(10, 6))
+plt.imshow(img)
+plt.axis('off')
+plt.show()
+
+```
+
+```{python}
+
+#| echo: false
+#| label: fig-figure15
+#| fig-cap: "Confusion matrix for XGB on 1-day dataset"
+#| warning: false
+#| message: false
+
+
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+
+img = mpimg.imread('../other/graphs/XGB_confusion_1d.png')
+plt.figure(figsize=(10, 6))
+plt.imshow(img)
+plt.axis('off')
+plt.show()
+
+```
+
+### Model Performance Comparison
+Among the three tested models, XGB produced the best overall accuracy, especially when predicting on the 1-minute and 1-hour interval datasets, showing its strength in handling the data effectively. In contrast, LSTM performed the worst, failing to make meaningful predictions and only predicting a decrease for all instances. This limited its performance in this study. While RNN struggled with the 1-minute dataset, it performed better on the 1-hour and 1-day datasets and even achieved the highest F1-score of 0.63 for predicting an increase on the 1-day dataset. This suggests that RNN may be better suited for datasets with larger time intervals, where sequential dependencies are more influential. Overall, the results indicate that XGB offers a more reliable balance of performance and efficiency. In contrast, the sequential models (RNN and LSTM) require further optimization or adjustments to deliver competitive results.
+
+## Training Effort
+XGB trains the fastest, followed by RNN, with LSTM taking the longest to train when using only a CPU. This project used a 16-core Intel Core i7-10700KF 3.80GHz CPU to train all the models. Using the 1-minute dataset as an example, XGB took only 8 minutes to complete training, RNN took 2 and 40 minutes, while LSTM used 10 and 31 minutes. These results confirmed the efficiency of XGB, which is particularly well-suited for individuals with limited computational resources. RNN, though slower, demonstrates a reasonable trade-off between training time and predictive performance, particularly for datasets with longer intervals.
+On the other hand, LSTM has the most prolonged training duration and least optimal performance. This suggests that when training LSTM models, better optimization or alternative approaches can be beneficial without access to GPUs or distributed computing resources. This extreme difference in training times demonstrates the practical implications of model selection for computationally constrained traders.
 
 # Discussion {#sec-discussion}
 
